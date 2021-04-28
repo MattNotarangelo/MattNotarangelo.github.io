@@ -74,10 +74,10 @@ a strong {
   color: inherit;
 }
 /* `:focus` is linked to `:hover` for basic accessibility */
-a:hover,
+/* a:hover,
 a:focus {
   text-decoration: underline;
-}
+} */
 
 /* Headings */
 h1, h2, h3, h4, h5, h6 {
@@ -130,9 +130,9 @@ dd {
 /* Misc */
 hr {
   position: relative;
-  margin: 1.5rem 0;
+  margin: 1.25rem 0;
   border: 0;
-  border-top: 1px solid #eee;
+  border-top: 0px solid #eee;
   border-bottom: 1px solid #fff;
 }
 
