@@ -13,22 +13,22 @@
     <div class="content container">
         <div class="post">
             <h1 class="post-title">Contact me!</h1>
-            <p>Email me at: matt.notarangelo1@gmail.com</p>
+            <p>Email me at: <a href="mailto:matt.notarangelo1@gmail.com">matt.notarangelo1@gmail.com</a></p>
 
 
 
-            <form id="contactbox" name="contact-form" accept-charset="utf-8" action="https://formspree.io/f/xvodzkkp"
+            <form id="contactbox" name="contact-form" accept-charset="utf-8" action="https://formspree.io/f/xvodzkkp" 
                 method="post">
-                <fieldset id="contactbox-inputs">
-                    <label for="full-name">Name</label><br>
-                    <input type="text" name="name" id="full-name" required=""><br>
-                    <label for="email-address">Email Address</label><br>
-                    <input type="email" name="_replyto" id="email-address" required=""><br>
-                    <label for="message">Message</label><br>
-                    <textarea rows="5" name="message" id="message" required=""></textarea><br>
+                <fieldset id="contactbox-inputs" class="contactbox">
+                    <label for="full-name"></label>
+                    <input type="text" name="name" id="full-name" required="" placeholder="Name">
+                    <label for="email-address"></label>
+                    <input type="email" name="_replyto" id="email-address" required="" placeholder="Email Address">
+                    <label for="message"></label>
+                    <textarea rows="5" name="message" id="message" required="" placeholder="Message"></textarea>
                     <input type="hidden" name="_subject" id="email-subject" value="Contact Form Submission">
                 </fieldset>
-                <input type="submit" value="Submit">
+                <input type="submit" value="Submit" class="submitbutton">
             </form>
         </div>
 
