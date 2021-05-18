@@ -461,3 +461,12 @@ a.pagination-item:hover {
   text-transform: uppercase;
   font-weight: normal;
 }
+
+#myCanvas {
+  width: 99%;
+  height: 99%;
+  margin: 0px;
+  border: 0;
+  overflow: hidden; /*  Disable scrollbars */
+  display: block;  /* No floating content on sides */
+}

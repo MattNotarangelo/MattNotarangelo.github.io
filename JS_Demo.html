@@ -1,0 +1,29 @@
+---
+---
+<!DOCTYPE html>
+<html lang="en-us">
+
+{% include head.html %}
+
+<body>
+
+    {% include sidebar.html %}
+
+    <canvas id="myCanvas" width="1000" height="1000"></canvas>
+    <script>
+        var c = document.getElementById("myCanvas");
+        var ctx = c.getContext("2d");
+        ctx.moveTo(0, 0);
+        ctx.lineTo(2000, 1000);
+        ctx.stroke();
+
+    </script>
+
+
+
+
+
+
+</body>
+
+</html>
