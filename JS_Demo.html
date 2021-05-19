@@ -9,13 +9,51 @@
 
     {% include sidebar.html %}
 
-    <canvas id="myCanvas" width="1000" height="1000"></canvas>
+    <canvas id="myCanvas" width="10" height="10"></canvas>
     <script>
-        var c = document.getElementById("myCanvas");
-        var ctx = c.getContext("2d");
-        ctx.moveTo(0, 0);
-        ctx.lineTo(2000, 1000);
-        ctx.stroke();
+        var canvas = document.getElementById("myCanvas");
+        var ctx = canvas.getContext("2d");
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+        
+        var x = Math.random() * canvas.width;
+        var y = Math.random() * canvas.height;
+        var dx = 2;
+        var dy = 2;
+        var ballRadius = 10;
+
+        window.onresize = function () {
+            canvas.height = window.innerHeight;
+            canvas.width = window.innerWidth;
+        }
+
+        function draw() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            drawBall();
+
+            if (x + dx + ballRadius > canvas.width || x + dx - ballRadius < 0) {
+                dx = -dx
+            }
+
+            if (y + dy + ballRadius > canvas.height || y + dy - ballRadius < 0) {
+                dy = -dy
+            }
+            x += dx;
+            y += dy;
+        }
+
+        function drawBall() {
+
+            ctx.beginPath();
+            ctx.arc(x, y, ballRadius, 0, Math.PI * 2);
+            ctx.fillStyle = "#0095DD";
+            //  make this transparent at some point
+            ctx.fill();
+            ctx.closePath();
+
+        }
+
+        setInterval(draw, 6)
 
     </script>
 
