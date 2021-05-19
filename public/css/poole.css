@@ -464,4 +464,5 @@ a.pagination-item:hover {
 
 #myCanvas {
   position:fixed;
+  pointer-events:none;
 } 
