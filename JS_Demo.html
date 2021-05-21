@@ -15,12 +15,15 @@
         var ctx = canvas.getContext("2d");
         canvas.width = window.innerWidth;
         canvas.height = window.innerHeight;
-        
+
         var x = Math.random() * canvas.width;
         var y = Math.random() * canvas.height;
         var dx = 2;
         var dy = 2;
         var ballRadius = 10;
+        
+
+        var ballColour = "#0095DD"
 
         window.onresize = function () {
             canvas.height = window.innerHeight;
@@ -32,23 +35,52 @@
             drawBall();
 
             if (x + dx + ballRadius > canvas.width || x + dx - ballRadius < 0) {
-                dx = -dx
+                dx = -dx;
             }
 
             if (y + dy + ballRadius > canvas.height || y + dy - ballRadius < 0) {
-                dy = -dy
+                dy = -dy;
             }
+
+            if (y > canvas.height) {
+                y = canvas.height-ballRadius;
+            }
+            if (y < 0) {
+                y = ballRadius;
+            }
+
+            if (x > canvas.width) {
+                x = canvas.width-ballRadius;
+            }
+            if (x < 0) {
+                x = ballRadius;
+            }
+
             x += dx;
             y += dy;
         }
 
         function drawBall() {
+
+
+            var i;
+            for (i = 2; i < 5; i++) {
+                ctx.beginPath();
+
+                ctx.arc(x - (4 * i * dx), y - (4 * i* dy), ballRadius / (1.5*i), 0, Math.PI * 2);
+                ctx.fillStyle = "#cccccc";
+                ctx.fill();
+                ctx.closePath();
+            }
+            
+
             ctx.beginPath();
             ctx.arc(x, y, ballRadius, 0, Math.PI * 2);
-            ctx.fillStyle = "#0095DD";
+            ctx.fillStyle = ballColour;
             //  make this transparent at some point
             ctx.fill();
             ctx.closePath();
+
         }
 
         setInterval(draw, 6)
