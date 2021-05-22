@@ -9,22 +9,23 @@
 
     {% include sidebar.html %}
 
-    <div class = "content" style="position: absolute;">
+    <div class="content" style="position: absolute;">
         Settings:<br>
-        <input type="range" min ="5" max = "20" value = "10" step ="any" id="sizeInput">
+        <input type="range" min="5" max="20" value="10" step="any" id="sizeInput">
         <label for="sizeInput">Size</label>
-        <br> 
-        <input type="color" value = "#0095DD" id="colourInput"> 
+        <br>
+        <input type="color" value="#0095DD" id="colourInput">
         <label for="colourInput">Colour</label>
-    
     </div>
-    
+
     <canvas id="myCanvas" width="10" height="10"></canvas>
+
     <script>
         var canvas = document.getElementById("myCanvas");
         var ctx = canvas.getContext("2d");
-
         var sizeInput = document.getElementById("sizeInput")
+
+        var drawFreq = 5 // milliseconds
 
         canvas.width = window.innerWidth;
         canvas.height = window.innerHeight;
@@ -34,8 +35,6 @@
         var dx = 2;
         var dy = 2;
         var ballRadius = parseInt(sizeInput.value);
-
-
         var ballColour = "#0095DD"
 
         window.onresize = function () {
@@ -46,17 +45,43 @@
         sizeInput.oninput = function () {
             ballRadius = parseInt(sizeInput.value);
         }
+
         colourInput.oninput = function () {
             ballColour = colourInput.value;
         }
 
-        function draw() {
+        function main() {
             ctx.clearRect(0, 0, canvas.width, canvas.height);
+            checkValid();
             drawBall();
 
+            x += dx;
+            y += dy;
+        }
+
+        function drawBall() {
+            // Draw smoke trail
+            var i;
+            for (i = 2; i < 6; i++) {
+                ctx.beginPath();
+                ctx.arc(x - (4 * i * dx), y - (4 * i * dy), ballRadius / (1.5 * i), 0, Math.PI * 2);
+                ctx.fillStyle = "#cccccc";
+                ctx.fill();
+                ctx.closePath();
+            }
+
+            // Draw ball
+            ctx.beginPath();
+            ctx.arc(x, y, ballRadius, 0, Math.PI * 2);
+            ctx.fillStyle = ballColour;
+            ctx.fill();
+            ctx.closePath();
+        }
+
+        function checkValid() {
             if (x + dx + ballRadius >= canvas.width) {
                 dx = -dx;
-                x = canvas.width-ballRadius-2;
+                x = canvas.width - ballRadius - 2;
             }
             if (x + dx - ballRadius <= 0) {
                 dx = -dx;
@@ -64,66 +89,17 @@
             }
             if (y + dy + ballRadius >= canvas.height) {
                 dy = -dy;
-                y = canvas.height-ballRadius-2;
+                y = canvas.height - ballRadius - 2;
             }
             if (y + dy - ballRadius <= 0) {
                 dy = -dy;
                 y = ballRadius + 2;
             }
-            // }
-            // if (x + dx + ballRadius > canvas.width || x + dx - ballRadius < 0) {
-            //     dx = -dx;
-            // }
-
-            // if (y + dy + ballRadius > canvas.height || y + dy - ballRadius < 0) {
-            //     dy = -dy;
-            // }
-
-            // if (y > canvas.height) {
-            //     y = canvas.height-ballRadius -2;
-            // }
-            // if (y < ballRadius) {
-            //     y = ballRadius+2;
-            // }
-
-            // if (x > canvas.width) {
-            //     x = canvas.width-ballRadius-2;
-            // }
-            // if (x < ballRadius) {
-            //     x = ballRadius+2;
-            // }
-
-            x += dx;
-            y += dy;
         }
 
-        function drawBall() {
-
-
-            var i;
-            for (i = 2; i < 6; i++) {
-                ctx.beginPath();
-
-                ctx.arc(x - (4 * i * dx), y - (4 * i* dy), ballRadius / (1.5*i), 0, Math.PI * 2);
-                ctx.fillStyle = "#cccccc";
-                ctx.fill();
-                ctx.closePath();
-            }
-            
-
-            ctx.beginPath();
-            ctx.arc(x, y, ballRadius, 0, Math.PI * 2);
-            ctx.fillStyle = ballColour;
-            //  make this transparent at some point
-            ctx.fill();
-            ctx.closePath();
-
-        }
-
-        setInterval(draw, 5)
+        setInterval(main, drawFreq)
 
     </script>
-
 
 </body>
 
