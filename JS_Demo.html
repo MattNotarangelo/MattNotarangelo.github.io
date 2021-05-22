@@ -14,7 +14,7 @@
         <input type="range" min="5" max="20" value="10" step="any" id="sizeInput">
         <label for="sizeInput">Size</label>
         <br>
-        <input type="range" min="1" max="4" value="2" step="any" id="speedInput">
+        <input type="range" min="1" max="6" value="3" step="any" id="speedInput">
         <label for="speedInput">Speed</label>
         <br>
         <input type="color" value="#00AAFF" id="colourInput">
@@ -23,11 +23,21 @@
     </div>
 
     <canvas id="myCanvas" width="10" height="10"></canvas>
-
+ 
     <script>
         var canvas = document.getElementById("myCanvas");
         var ctx = canvas.getContext("2d");
         var sizeInput = document.getElementById("sizeInput")
+
+        // class Ball {
+        //     constructor(x, y, dx, dy) {
+        //         this.x = x
+        //         this.y = y
+        //         this.dx = dx
+        //         this.dy = dy
+
+        //     }
+        // }
 
         var drawFreq = 5 // milliseconds
 
@@ -36,8 +46,13 @@
 
         var x = Math.random() * canvas.width;
         var y = Math.random() * canvas.height;
-        var dx = parseFloat(speedInput.value);
-        var dy = parseFloat(speedInput.value);
+        var angle = Math.random()*2*Math.PI;
+        var xAngle = Math.cos(angle);
+        var yAngle = Math.sin(angle);
+        var dx = xAngle * parseFloat(speedInput.value);
+        var dy = yAngle * parseFloat(speedInput.value);
+        // var dx = parseFloat(speedInput.value);
+        // var dy = parseFloat(speedInput.value);
         var ballRadius = parseFloat(sizeInput.value);
         var ballColour = colourInput.value;
 
@@ -55,8 +70,9 @@
         }
 
         speedInput.oninput = function () {
-            dx = Math.sign(dx)*parseFloat(speedInput.value);
-            dy = Math.sign(dy)*parseFloat(speedInput.value);
+            let speed = Math.sqrt(Math.pow(dx, 2) + Math.pow(dy, 2));
+            dx = dx/speed * parseFloat(speedInput.value);
+            dy = dy/speed * parseFloat(speedInput.value);
         }
 
         function main() {
@@ -72,8 +88,8 @@
             // Draw smoke trail
             for (var i = 2; i < 6; i++) {
                 ctx.beginPath();
-                var xoffset = Math.sign(dx)*ballRadius/3;
-                var yoffset = Math.sign(dy)*ballRadius/3;
+                var xoffset = dx*ballRadius/6;
+                var yoffset = dy*ballRadius/6;
                 ctx.arc(x - (4 * i * dx) - xoffset, y - (4 * i * dy) - yoffset, ballRadius / (1.5 * i), 0, Math.PI * 2);
                 ctx.fillStyle = "#cccccc";
                 ctx.fill();
