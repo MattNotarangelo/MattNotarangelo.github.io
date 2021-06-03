@@ -31,37 +31,43 @@
     <canvas id="myCanvas" width="10" height="10"></canvas>
  
     <script>
+        // INITIALISATION
         var canvas = document.getElementById("myCanvas");
         var ctx = canvas.getContext("2d");
-        // var sizeInput = document.getElementById("sizeInput")
-
-        // class Ball {
-        //     constructor(x, y, dx, dy) {
-        //         this.x = x
-        //         this.y = y
-        //         this.dx = dx
-        //         this.dy = dy
-
-        //     }
-        // }
-
         var drawFreq = 5 // milliseconds
+
+        var ballRadius = parseFloat(sizeInput.value);
+        var ballColour = colourInput.value;
 
         canvas.width = window.innerWidth;
         canvas.height = window.innerHeight;
 
-        var x = Math.random() * canvas.width;
-        var y = Math.random() * canvas.height;
-        var angle = Math.random()*2*Math.PI;
-        var xAngle = Math.cos(angle);
-        var yAngle = Math.sin(angle);
-        var dx = xAngle * parseFloat(speedInput.value);
-        var dy = yAngle * parseFloat(speedInput.value);
-        // var dx = parseFloat(speedInput.value);
-        // var dy = parseFloat(speedInput.value);
-        var ballRadius = parseFloat(sizeInput.value);
-        var ballColour = colourInput.value;
+        class Ball {
+            constructor() {
+                this.x = Math.random() * canvas.width;
+                this.y = Math.random() * canvas.height;
+                
+                let angle = Math.random()*2*Math.PI;
+                this.xAngle = Math.cos(angle);
+                this.yAngle = Math.sin(angle);
+            }
 
+            drawBall() {
+
+            }
+
+            checkValid() {
+
+            }
+
+            
+        }
+
+        var ballArray = [Ball()];
+
+
+
+        // USER INPUTS
         window.onresize = function () {
             canvas.height = window.innerHeight;
             canvas.width = window.innerWidth;
@@ -76,22 +82,26 @@
         }
 
         speedInput.oninput = function () {
-            let speed = Math.sqrt(Math.pow(dx, 2) + Math.pow(dy, 2));
-            dx = dx/speed * parseFloat(speedInput.value);
-            dy = dy/speed * parseFloat(speedInput.value);
+            var speed = parseFloat(speedInput.value);
         }
 
+        // ADD BALL
         function addBall() {
             alert("add ball");
         }
 
+        // RELOAD PAGE
         function resetBall() {
             location.reload()
             return
         }
 
+        // MAIN LOOP
         function main() {
             ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+
+
             checkValid();
             drawBall();
 
@@ -99,10 +109,14 @@
             y += dy;
         }
 
+        // DRAW BALL
         function drawBall() {
             // Draw smoke trail
             for (var i = 2; i < 6; i++) {
                 ctx.beginPath();
+                var dx = xAngle * parseFloat(speedInput.value);
+                var dy = yAngle * parseFloat(speedInput.value);
+
                 var xoffset = dx*ballRadius/6;
                 var yoffset = dy*ballRadius/6;
                 ctx.arc(x - (4 * i * dx) - xoffset, y - (4 * i * dy) - yoffset, ballRadius / (1.5 * i), 0, Math.PI * 2);
