@@ -19,6 +19,12 @@
         <br>
         <input type="color" value="#00AAFF" id="colourInput">
         <label for="colourInput">Colour</label>
+        <br>
+        <button type="button" onclick="addBall()" name="addBallButton">Add ball</button>
+        <br>
+        <button type="button" onclick="resetBall()" name= "resetButton">Reset</button>
+        
+        
 
     </div>
 
@@ -73,6 +79,15 @@
             let speed = Math.sqrt(Math.pow(dx, 2) + Math.pow(dy, 2));
             dx = dx/speed * parseFloat(speedInput.value);
             dy = dy/speed * parseFloat(speedInput.value);
+        }
+
+        function addBall() {
+            alert("add ball");
+        }
+
+        function resetBall() {
+            alert("reset ball");
+
         }
 
         function main() {
