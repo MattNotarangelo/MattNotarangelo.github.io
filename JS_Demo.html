@@ -22,7 +22,9 @@
         <label for="colourInput">Colour</label>
         <br>
         <button type="button" onclick="addBall()" name="addBallButton">Add ball</button>
-        <!-- <p>Number of balls:</p> -->
+        Number of balls: <span id="ballCount"></span>
+        <br>
+        <button type="button" onclick="addTenBall()" name="addBallButton">Add 10 balls</button>
         <br>
         <button type="button" onclick="resetBall()" name="resetButton">Reset</button>
 
@@ -34,9 +36,11 @@
         // INITIALISATION
         var canvas = document.getElementById("myCanvas");
         var ctx = canvas.getContext("2d");
-        var drawFreq = 5 // milliseconds
+        var ballCount = document.getElementById('ballCount');
+        ballCount.innerHTML = "0";
+        var drawFreq = 5; // milliseconds
 
-        var ballRadius = parseFloat(sizeInput.value);
+        var ballSize = parseFloat(sizeInput.value);
         var ballColour = colourInput.value;
         var ballSpeed = parseFloat(speedInput.value);
 
@@ -58,21 +62,21 @@
                 let dx = ballSpeed * this.xAngle;
                 let dy = ballSpeed * this.yAngle;
 
-                if (this.x + dx + ballRadius >= canvas.width) {
+                if (this.x + dx + ballSize >= canvas.width) {
                     this.xAngle = -this.xAngle;
-                    this.x = canvas.width - ballRadius - 2;
+                    this.x = canvas.width - ballSize - 2;
                 }
-                if (this.x + dx - ballRadius <= 0) {
+                if (this.x + dx - ballSize <= 0) {
                     this.xAngle = -this.xAngle;
-                    this.x = ballRadius + 2;
+                    this.x = ballSize + 2;
                 }
-                if (this.y + dy + ballRadius >= canvas.height) {
+                if (this.y + dy + ballSize >= canvas.height) {
                     this.yAngle = - this.yAngle;
-                    this.y = canvas.height - ballRadius - 2;
+                    this.y = canvas.height - ballSize - 2;
                 }
-                if (this.y + dy - ballRadius <= 0) {
+                if (this.y + dy - ballSize <= 0) {
                     this.yAngle = -this.yAngle;
-                    this.y = ballRadius + 2;
+                    this.y = ballSize + 2;
                 }
 
                 dx = ballSpeed * this.xAngle;
@@ -84,9 +88,9 @@
                 for (let i = 2; i < 6; i++) {
                     ctx.beginPath();
 
-                    let xoffset = dx * ballRadius / 6;
-                    let yoffset = dy * ballRadius / 6;
-                    ctx.arc(this.x - (4 * i * dx) - xoffset, this.y - (4 * i * dy) - yoffset, ballRadius / (1.5 * i), 0, Math.PI * 2);
+                    let xoffset = dx * ballSize / 6;
+                    let yoffset = dy * ballSize / 6;
+                    ctx.arc(this.x - (4 * i * dx) - xoffset, this.y - (4 * i * dy) - yoffset, ballSize / (1.5 * i), 0, Math.PI * 2);
                     ctx.fillStyle = "#cccccc";
                     ctx.fill();
                     ctx.closePath();
@@ -94,7 +98,7 @@
 
                 // Draw ball
                 ctx.beginPath();
-                ctx.arc(this.x, this.y, ballRadius, 0, Math.PI * 2);
+                ctx.arc(this.x, this.y, ballSize, 0, Math.PI * 2);
                 ctx.fillStyle = ballColour;
                 ctx.fill();
                 ctx.closePath();
@@ -108,7 +112,7 @@
         }
 
         sizeInput.oninput = function () {
-            ballRadius = parseFloat(sizeInput.value);
+            ballSize = parseFloat(sizeInput.value);
         }
 
         colourInput.oninput = function () {
@@ -122,7 +126,17 @@
         // ADD BALL
         function addBall() {
             ballArray.push(new Ball());
+            ballCount.innerHTML = String(ballArray.length);
+            // document.getElementById('ballCount').innerHTML = String(ballArray.length);
+            // String(ballArray.length)
         }
+
+        function addTenBall() {
+            for (let i = 0; i < 10; i++) {
+                addBall();
+            }
+        }
+
 
         // RELOAD PAGE
         function resetBall() {
