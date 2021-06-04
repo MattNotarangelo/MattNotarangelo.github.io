@@ -22,14 +22,14 @@
         <br>
         <button type="button" onclick="addBall()" name="addBallButton">Add ball</button>
         <br>
-        <button type="button" onclick="resetBall()" name= "resetButton">Reset</button>
-        
-        
+        <button type="button" onclick="resetBall()" name="resetButton">Reset</button>
+
+
 
     </div>
 
     <canvas id="myCanvas" width="10" height="10"></canvas>
- 
+
     <script>
         // INITIALISATION
         var canvas = document.getElementById("myCanvas");
@@ -38,32 +38,75 @@
 
         var ballRadius = parseFloat(sizeInput.value);
         var ballColour = colourInput.value;
+        var speed = parseFloat(speedInput.value);
 
         canvas.width = window.innerWidth;
         canvas.height = window.innerHeight;
+        var ballArray = [];
 
         class Ball {
             constructor() {
                 this.x = Math.random() * canvas.width;
                 this.y = Math.random() * canvas.height;
-                
-                let angle = Math.random()*2*Math.PI;
+
+                let angle = Math.random() * 2 * Math.PI;
                 this.xAngle = Math.cos(angle);
                 this.yAngle = Math.sin(angle);
+                return
             }
 
             drawBall() {
+                let dx = speed * this.xAngle;
+                let dy = speed * this.yAngle;
+                if (this.x + dx + ballRadius >= canvas.width) {
+                    this.xAngle = -this.xAngle;
+                    this.x = canvas.width - ballRadius - 2;
+                }
+                if (this.x + dx - ballRadius <= 0) {
+                    this.xAngle = -this.xAngle;
+                    this.x = ballRadius + 2;
+                }
+                if (this.y + dy + ballRadius >= canvas.height) {
+                    this.yAngle = - this.yAngle;
+                    this.y = canvas.height - ballRadius - 2;
+                }
+                if (this.y + dy - ballRadius <= 0) {
+                    this.yAngle = -this.yAngle;
+                    this.y = ballRadius + 2;
+                }
+
+                dx = speed * this.xAngle;
+                dy = speed * this.yAngle;
+                
+                this.x += dx;
+                this.y += dy;
+
+                for (let i = 2; i < 6; i++) {
+                    ctx.beginPath();
+
+                    let xoffset = dx * ballRadius / 6;
+                    let yoffset = dy * ballRadius / 6;
+                    ctx.arc(this.x - (4 * i * dx) - xoffset, this.y - (4 * i * dy) - yoffset, ballRadius / (1.5 * i), 0, Math.PI * 2);
+                    ctx.fillStyle = "#cccccc";
+                    ctx.fill();
+                    ctx.closePath();
+                }
+
+                // Draw ball
+                ctx.beginPath();
+                ctx.arc(this.x, this.y, ballRadius, 0, Math.PI * 2);
+                ctx.fillStyle = ballColour;
+                ctx.fill();
+                ctx.closePath();
+                return
 
             }
 
-            checkValid() {
 
-            }
 
-            
+
         }
 
-        var ballArray = [Ball()];
 
 
 
@@ -82,12 +125,12 @@
         }
 
         speedInput.oninput = function () {
-            var speed = parseFloat(speedInput.value);
+            speed = parseFloat(speedInput.value);
         }
 
         // ADD BALL
         function addBall() {
-            alert("add ball");
+            ballArray.push(new Ball());
         }
 
         // RELOAD PAGE
@@ -100,57 +143,10 @@
         function main() {
             ctx.clearRect(0, 0, canvas.width, canvas.height);
 
+            ballArray.forEach(item => item.drawBall());
 
-
-            checkValid();
-            drawBall();
-
-            x += dx;
-            y += dy;
         }
 
-        // DRAW BALL
-        function drawBall() {
-            // Draw smoke trail
-            for (var i = 2; i < 6; i++) {
-                ctx.beginPath();
-                var dx = xAngle * parseFloat(speedInput.value);
-                var dy = yAngle * parseFloat(speedInput.value);
-
-                var xoffset = dx*ballRadius/6;
-                var yoffset = dy*ballRadius/6;
-                ctx.arc(x - (4 * i * dx) - xoffset, y - (4 * i * dy) - yoffset, ballRadius / (1.5 * i), 0, Math.PI * 2);
-                ctx.fillStyle = "#cccccc";
-                ctx.fill();
-                ctx.closePath();
-            }
-
-            // Draw ball
-            ctx.beginPath();
-            ctx.arc(x, y, ballRadius, 0, Math.PI * 2);
-            ctx.fillStyle = ballColour;
-            ctx.fill();
-            ctx.closePath();
-        }
-
-        function checkValid() {
-            if (x + dx + ballRadius >= canvas.width) {
-                dx = -dx;
-                x = canvas.width - ballRadius - 2;
-            }
-            if (x + dx - ballRadius <= 0) {
-                dx = -dx;
-                x = ballRadius + 2;
-            }
-            if (y + dy + ballRadius >= canvas.height) {
-                dy = -dy;
-                y = canvas.height - ballRadius - 2;
-            }
-            if (y + dy - ballRadius <= 0) {
-                dy = -dy;
-                y = ballRadius + 2;
-            }
-        }
 
         setInterval(main, drawFreq)
 
