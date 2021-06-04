@@ -10,7 +10,8 @@
     {% include sidebar.html %}
 
     <div class="content" style="position: absolute;">
-        Settings:<br>
+        Settings:
+        <br>
         <input type="range" min="5" max="20" value="10" step="any" id="sizeInput">
         <label for="sizeInput">Size</label>
         <br>
@@ -21,10 +22,9 @@
         <label for="colourInput">Colour</label>
         <br>
         <button type="button" onclick="addBall()" name="addBallButton">Add ball</button>
+        <!-- <p>Number of balls:</p> -->
         <br>
         <button type="button" onclick="resetBall()" name="resetButton">Reset</button>
-
-
 
     </div>
 
@@ -38,7 +38,7 @@
 
         var ballRadius = parseFloat(sizeInput.value);
         var ballColour = colourInput.value;
-        var speed = parseFloat(speedInput.value);
+        var ballSpeed = parseFloat(speedInput.value);
 
         canvas.width = window.innerWidth;
         canvas.height = window.innerHeight;
@@ -52,12 +52,12 @@
                 let angle = Math.random() * 2 * Math.PI;
                 this.xAngle = Math.cos(angle);
                 this.yAngle = Math.sin(angle);
-                return
             }
 
             drawBall() {
-                let dx = speed * this.xAngle;
-                let dy = speed * this.yAngle;
+                let dx = ballSpeed * this.xAngle;
+                let dy = ballSpeed * this.yAngle;
+
                 if (this.x + dx + ballRadius >= canvas.width) {
                     this.xAngle = -this.xAngle;
                     this.x = canvas.width - ballRadius - 2;
@@ -75,9 +75,9 @@
                     this.y = ballRadius + 2;
                 }
 
-                dx = speed * this.xAngle;
-                dy = speed * this.yAngle;
-                
+                dx = ballSpeed * this.xAngle;
+                dy = ballSpeed * this.yAngle;
+
                 this.x += dx;
                 this.y += dy;
 
@@ -98,17 +98,8 @@
                 ctx.fillStyle = ballColour;
                 ctx.fill();
                 ctx.closePath();
-                return
-
             }
-
-
-
-
         }
-
-
-
 
         // USER INPUTS
         window.onresize = function () {
@@ -125,7 +116,7 @@
         }
 
         speedInput.oninput = function () {
-            speed = parseFloat(speedInput.value);
+            ballSpeed = parseFloat(speedInput.value);
         }
 
         // ADD BALL
@@ -136,22 +127,15 @@
         // RELOAD PAGE
         function resetBall() {
             location.reload()
-            return
         }
 
         // MAIN LOOP
         function main() {
             ctx.clearRect(0, 0, canvas.width, canvas.height);
-
             ballArray.forEach(item => item.drawBall());
-
         }
 
-
         setInterval(main, drawFreq)
-
     </script>
-
 </body>
-
 </html>
