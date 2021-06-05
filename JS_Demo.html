@@ -21,12 +21,12 @@
         <input type="color" value="#00AAFF" id="colourInput">
         <label for="colourInput">Colour</label>
         <br>
-        <button type="button" onclick="addBall()" name="addBallButton">Add ball</button>
-        Number of balls: <span id="ballCount"></span>
+        <button type="button" onclick="addBall()" name="addBallButton" class="ballButton">Add ball</button>
+        <span id="ballCount"></span>
         <br>
-        <button type="button" onclick="addTenBall()" name="addBallButton">Add 10 balls</button>
+        <button type="button" onclick="addTenBall()" name="addBallButton" class="ballButton">Add 10 balls</button>
         <br>
-        <button type="button" onclick="resetBall()" name="resetButton">Reset</button>
+        <button type="button" onclick="resetBall()" name="resetButton" class="ballButton">Reset</button>
 
     </div>
 
@@ -37,7 +37,7 @@
         var canvas = document.getElementById("myCanvas");
         var ctx = canvas.getContext("2d");
         var ballCount = document.getElementById('ballCount');
-        ballCount.innerHTML = "0";
+        ballCount.innerHTML = "Number of balls: 0";
         var drawFreq = 5; // milliseconds
 
         var ballSize = parseFloat(sizeInput.value);
@@ -126,7 +126,7 @@
         // ADD BALL
         function addBall() {
             ballArray.push(new Ball());
-            ballCount.innerHTML = String(ballArray.length);
+            ballCount.innerHTML = "Number of balls: " + String(ballArray.length);
             // document.getElementById('ballCount').innerHTML = String(ballArray.length);
             // String(ballArray.length)
         }

@@ -450,3 +450,8 @@ a.pagination-item:hover {
   position: fixed;
   pointer-events: none;
 } 
+
+.button.ballButton {
+  margin-top: 0.25rem;
+  margin-bottom: 0.25rem;
+}
